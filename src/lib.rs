@@ -1,12 +1,29 @@
 pub type Numbers = (f32, f32);
-
+pub struct Final<'a> {
+    numbers: Vec<f32>,
+    sign: &'a str,
+}
+impl Final {
+    pub fn new<'a>(&self, numbers: Vec<f32>, sign: &'a str) -> Self {
+        Self {
+            numbers: numbers,
+            sign: &sign,
+        }
+    }
+}
 pub mod main_fuctionality {
     use std::ops::{Add, Div, Mul, Sub};
 
-    pub fn parse_the_input_into_f32(n1: &str, n2: &str) -> (f32, f32) {
-        let n1 = n1.parse::<f32>().unwrap();
-        let n2 = n2.parse::<f32>().unwrap();
-        (n1, n2)
+    pub fn parse_the_input_into_f32<'a>(expr: &'a str) -> Vec<f32> {
+        let mut stack: Vec<String> = vec![];
+
+        for c in expr.chars() {
+            stack.push(c.to_string());
+        }
+        stack.pop();
+        let mut returning_vec_with_numbers: Vec<f32> = vec![];
+        stack.iter().for_each(|item| {});
+        returning_vec_with_numbers
     }
     pub fn add<T>(n1: T, n2: T) -> T
     where
@@ -65,7 +82,7 @@ mod test_main_funtionality {
     }
     #[test]
     fn parse_strings_input() {
-        let parsing = parse_the_input_into_f32("1", "0.4");
-        assert_eq!((1.0, 0.4), parsing);
+        let parsing = parse_the_input_into_f32("1 + 1");
+        assert_eq!(vec![1.0, 1.0], parsing);
     }
 }
