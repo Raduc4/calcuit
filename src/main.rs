@@ -1,23 +1,36 @@
-use calcuit::main_fuctionality::{add, divide, multiply, parse_the_input_into_f32, subtract};
+mod parse;
+use parse::ast;
+use parse::parser::{ParseError, Parser};
 use std::io;
-
 fn main() {
-    loop {
-        let mut expresion = String::new();
+	println!("Hello! Welcome to Arithmetic expression evaluator.");
+	println!("You can calculate value for expression such as 2*3+(4-5)+2^3/4. ");
+	println!("Allowed numbers: positive, negative and decimals.");
+	println!(
+		"Supported operations: Add, Subtract, MultiplyPutting it all together 63 Divide, PowerOf(^). "
+	);
+	println!("Enter your arithmetic expression below:");
+	loop {
+		let mut input = String::new();
+		match io::stdin().read_line(&mut input) {
+			Ok(_) => {
+				match evaluate(input) {
+					Ok(val) => println!("The computed number is {}\n", val),
+					Err(_) => {
+						println!("Error in evaluating expression. Please enter valid expression\n");
+					}
+				};
+			}
+			Err(error) => println!("error: {}", error),
+		}
+	}
+}
 
-        io::stdin()
-            .read_line(&mut expresion)
-            .expect("Failed to read line");
-
-        if expresion.trim() == String::from("quit") {
-            std::process::exit(1);
-        }
-        let parsed_numbers = parse_the_input_into_f32(&expresion);
-        println!("{:?}", parsed_numbers);
-        println!("\n");
-        match expresion {
-            exp if exp.contains("+") => {}
-            _ => (),
-        }
-    }
+fn evaluate(expr: String) -> Result<f64, ParseError> {
+	let expr = expr.split_whitespace().collect::<String>();
+	// remove whitespace chars
+	let mut math_parser = Parser::new(&expr)?;
+	let ast = math_parser.parse()?;
+	println!("The generated AST is {:?}", ast);
+	Ok(ast::eval(ast)?)
 }
