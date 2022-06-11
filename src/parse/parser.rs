@@ -11,6 +11,7 @@ pub struct Parser<'a> {
 impl<'a> Parser<'a> {
 	pub fn new(expr: &'a str) -> Result<Self, ParseError> {
 		let mut lexer = Tokenizer::new(expr);
+		// It returns the .next() token
 		let cur_token = match lexer.next() {
 			Some(token) => token,
 			None => return Err(ParseError::InvalidOperator("Invalid char".into())),

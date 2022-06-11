@@ -71,4 +71,9 @@ mod tokenizer {
 		let mut tokenizer = Tokenizer::new("34.5");
 		assert_eq!(tokenizer.next().unwrap(), Token::Num(34.5))
 	}
+	#[test]
+	fn test_negative_number() {
+		let mut tokenizer = Tokenizer::new("10 - 34.5");
+		assert_eq!(tokenizer.next().unwrap(), Token::Num(10.0))
+	}
 }
