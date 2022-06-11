@@ -3,6 +3,7 @@ use super::token::{OperPrec, Token};
 use super::tokenizer::Tokenizer;
 use std::fmt;
 
+#[derive(Debug)]
 pub struct Parser<'a> {
 	tokenizer: Tokenizer<'a>,
 	current_token: Token,
@@ -126,6 +127,7 @@ impl<'a> Parser<'a> {
 	}
 }
 
+#[derive(Debug, PartialEq)]
 pub enum ParseError {
 	UnableToParse(String),
 	InvalidOperator(String),
@@ -146,14 +148,20 @@ impl std::convert::From<std::boxed::Box<dyn std::error::Error>> for ParseError {
 	}
 }
 
-// #[cfg(test)]
-// mod tests {
-// 	use super::*;
-// 	use crate::parse::ast::Node::{Add, Number};
-// 	#[test]
-// 	fn test_addition() {
-// 		let mut parser = Parser::new("1+2").unwrap();
-// 		let expected = Add(Box::new(Number(1.0)), Box::new(Number(2.0)));
-// 		assert_eq!(parser.parse().unwrap(), expected);
-// 	}
-// }
+#[cfg(test)]
+mod tests {
+	use super::Parser;
+	use crate::parse::ast::Node::{Add, Number, Subtract};
+	#[test]
+	fn test_addition() {
+		let mut parser = Parser::new("1+2").unwrap();
+		let expected = Add(Box::new(Number(1.0)), Box::new(Number(2.0)));
+		assert_eq!(parser.parse().unwrap(), expected);
+	}
+	#[test]
+	fn test_subtract() {
+		let mut parser = Parser::new("1-2").unwrap();
+		let expected = Subtract(Box::new(Number(1.0)), Box::new(Number(2.0)));
+		assert_eq!(parser.parse().unwrap(), expected);
+	}
+}

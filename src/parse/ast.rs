@@ -32,23 +32,23 @@ pub fn eval(expr: Node) -> Result<f64, Box<dyn error::Error>> {
 }
 
 //Unit tests
-// #[cfg(test)]
-// mod tests {
-// 	use super::*;
-// 	#[test]
-// 	fn test_expr1() {
-// 		use crate::parse::parser::Parser;
+#[cfg(test)]
+mod tests {
+	use super::*;
+	#[test]
+	fn test_expr1() {
+		use crate::parse::parser::Parser;
 
-// 		let ast = Parser::new("1+2-3").unwrap().parse().unwrap();
-// 		let value = eval(ast).unwrap();
-// 		assert_eq!(value, 0.0);
-// 	}
-// 	#[test]
-// 	fn test_expr2() {
-// 		use crate::parse::parser::Parser;
+		let ast = Parser::new("1+2-3").unwrap().parse().unwrap();
+		let value = eval(ast).unwrap();
+		assert_eq!(value, 0.0);
+	}
+	#[test]
+	fn test_expr2() {
+		use crate::parse::parser::Parser;
 
-// 		let ast = Parser::new("3+2-1*5/4").unwrap().parse().unwrap();
-// 		let value = eval(ast).unwrap();
-// 		assert_eq!(value, 3.75);
-// 	}
-// }
+		let ast = Parser::new("3+2-1*5/4").unwrap().parse().unwrap();
+		let value = eval(ast).unwrap();
+		assert_eq!(value, 3.75);
+	}
+}
